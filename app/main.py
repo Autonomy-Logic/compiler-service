@@ -1,11 +1,28 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import tempfile
 import subprocess
 import os
 import shutil
 
 app = FastAPI(title="OpenPLC Compiler Service")
+
+ALLOWED_ORIGINS = [
+    "https://autonomy-edge.com",
+    "https://www.autonomy-edge.com",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_methods=["POST", "OPTIONS"],
+    allow_headers=["*"],
+    allow_credentials=False,
+    max_age=86400,  # Cache preflight requests for 24 hours
+)
 
 
 """
