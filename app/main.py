@@ -32,7 +32,7 @@ async def generate_st(request: Request):
 
     # Create a unique temporary directory
     temp_dir = tempfile.mkdtemp(prefix="xml2st_")
-    xml_path = os.path.join(temp_dir, "input.xml")
+    xml_path = os.path.join(temp_dir, "plc.xml")
     st_path = os.path.join(temp_dir, "program.st")
 
     try:
