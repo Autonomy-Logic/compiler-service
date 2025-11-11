@@ -74,7 +74,8 @@ async def generate_st(request: Request):
                 program_st = f.read()
 
         response = {
-            "output": result.stdout + ("\n" + result.stderr if result.stderr else ""),
+            "output_stdout": result.stdout,
+            "output_stderr": (result.stderr if result.stderr else ""),
             "exit_code": result.returncode,
             "program_st": program_st
         }
@@ -137,7 +138,8 @@ async def compile_st(request: Request):
                     generated_files[filename] = f"Error reading file: {str(e)}"
 
         response = {
-            "output": result.stdout + ("\n" + result.stderr if result.stderr else ""),
+            "output_stdout": result.stdout,
+            "output_stderr": (result.stderr if result.stderr else ""),
             "exit_code": result.returncode,
             "files": generated_files
         }
@@ -212,7 +214,8 @@ async def generate_debug(request: Request):
                 debug_c = f.read()
 
         response = {
-            "output": result.stdout + ("\n" + result.stderr if result.stderr else ""),
+            "output_stdout": result.stdout,
+            "output_stderr": (result.stderr if result.stderr else ""),
             "exit_code": result.returncode,
             "program_st": program_st_with_debug,
             "debug_c": debug_c
@@ -275,7 +278,8 @@ async def generate_gluevars(request: Request):
                 glue_vars_c = f.read()
 
         response = {
-            "output": result.stdout + ("\n" + result.stderr if result.stderr else ""),
+            "output_stdout": result.stdout,
+            "output_stderr": (result.stderr if result.stderr else ""),
             "exit_code": result.returncode,
             "glue_vars_c": glue_vars_c
         }
