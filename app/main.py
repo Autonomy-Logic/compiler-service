@@ -118,6 +118,15 @@ async def compile_st(request: Request):
         with open(st_path, "w") as f:
             f.write(program_st_text)
 
+        # Copy MatIEC lib folder to temp directory
+        matiec_lib_source = "/home/ec2-user/compilers/matiec/lib"
+        if os.path.exists(matiec_lib_source):
+            shutil.copytree(matiec_lib_source, lib_path)
+        else:
+            raise HTTPException(
+                status_code=500, 
+                detail=f"MatIEC library folder not found at {matiec_lib_source}. Please ensure MatIEC is properly installed."
+            )
 
         result = subprocess.run(
             ["/usr/bin/iec2c", "-f", "-p", "-i", "-l", "program.st"],
