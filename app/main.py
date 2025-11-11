@@ -20,11 +20,15 @@ curl -X POST http://localhost:8000/generate-st \
 """
 @app.post("/generate-st", response_class=JSONResponse)
 async def generate_st(request: Request):
-    # Parse JSON body
-    data = await request.json()
+    # Parse and validate JSON body
+    try:
+        data = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Request body must be valid JSON.")
+
     plc_xml_text = data.get("plc_xml")
-    if not plc_xml_text:
-        raise HTTPException(status_code=422, detail="Missing 'plc_xml' field in request body")
+    if not isinstance(plc_xml_text, str) or not plc_xml_text.strip():
+        raise HTTPException(status_code=422, detail="Missing or invalid 'plc_xml' field in request body.")
 
     # Create a unique temporary directory
     temp_dir = tempfile.mkdtemp(prefix="xml2st_")
