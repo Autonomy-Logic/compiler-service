@@ -42,7 +42,7 @@ async def generate_st(request: Request):
 
         # Run xml2st command
         result = subprocess.run(
-            ["xml2st", "--generate-st", xml_path],
+            ["/usr/bin/xml2st", "--generate-st", xml_path],
             cwd=temp_dir,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
